@@ -1,0 +1,7 @@
+---
+- name: Configure .bashrc
+  template: src=../files/.bashrc.j2 dest=~/.bashrc
+
+- name: Configure .inputrc
+  template: src=../files/.inputrc.j2 dest=~/.inputrc
+...

@@ -1,0 +1,63 @@
+" General Config
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+set nowrap       "Don't wrap lines
+set linebreak    "Wrap lines at convenient points
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "dont fold by default
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+set backspace=2
+set noswapfile
+set nobackup
+set nowb
+
+" Vundle Plugin
+Plugin 'gmarik/vundle'
+
+Plugin 'scrooloose/nerdtree.git'
+" Open a NERDTree automically when vim starts up
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" A code-completion engine for Vim
+Plugin 'valloric/youcompleteme'
+
+" Better whitespace highlighting in Vim
+Plugin 'ntpeters/vim-better-whitespace'
+
+" A vim plugin for syntax highlighting Ansible's common filetypes
+Plugin 'pearofducks/ansible-vim'
+
+" A git wrapper
+Plugin 'tpope/vim-fugitive'
+
+" precision colorshceme for the vim text editor
+Plugin 'altercation/vim-colors-solarized'
+syntax enable
+set background=dark
+colorscheme solarized
+
+" surround.vim: quoting/parenthesizing made simple
+Plugin 'tpope/vim-surround'
+
+" Syntax checking hacks for vim
+Plugin 'scrooloose/syntastic'
+
+" numbers.vim is a vim plugin for better line numbers
+Plugin 'myusuf3/numbers.vim'
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
+
+filetype plugin indent on

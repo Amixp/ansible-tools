@@ -1,0 +1,121 @@
+---
+- name: Install Dependencies on Debian or Ubuntu
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - curl
+    - vim
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  become: yes
+
+- name: Install Dependencies on CentOS or RHEL
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - curl
+    - vim
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  become: yes
+
+- name: Copy my .vimrc
+  template: src=../files/.vimrc.j2 dest=~/.vimrc
+  become: no
+
+- name: Make directories for Git Repos and URLs
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - ~/.vim/autoload/
+    - ~/.vim/bundle
+
+- name: Install Pathogen
+  get_url:
+    url: https://tpo.pe/pathogen.vim
+    dest: ~/.vim/autoload/
+
+- name: Install Molokai Color Scheme
+  git:
+    repo: https://github.com/tomasr/molokai
+    dest: ~/.vim/bundle/molokai
+    update: yes
+    accept_hostkey: yes
+
+- name: Install Nerdtree
+  git:
+    repo: https://github.com/scrooloose/nerdtree.git
+    dest: ~/.vim/bundle/nerdtree
+    update: yes
+    accept_hostkey: yes
+
+- name: Install AutoComplPop
+  git:
+    repo: https://github.com/vim-scripts/AutoComplPop.git
+    dest: ~/.vim/bundle/AutoComplPop
+    update: yes
+    accept_hostkey: yes
+
+- name: Install vim-fugitive
+  git:
+    repo: https://github.com/tpope/vim-fugitive
+    dest: ~/.vim/bundle/vim-fugitive
+    update: yes
+    accept_hostkey: yes
+
+- name: Install CtrlP
+  git:
+    repo: https://github.com/kien/ctrlp.vim.git
+    dest: ~/.vim/bundle/ctrlp.vim
+    update: yes
+    accept_hostkey: yes
+
+- name: Install vim-better-whitespace
+  git:
+    repo: https://github.com/ntpeters/vim-better-whitespace.git
+    dest: ~/.vim/bundle/vim-better-whitespace
+    update: yes
+    accept_hostkey: yes
+
+- name: Install syntastic
+  git:
+    repo: https://github.com/scrooloose/syntastic.git
+    dest: ~/.vim/bundle/syntastic
+    update: yes
+    accept_hostkey: yes
+
+- name: Install Vundle
+  git:
+    repo: https://github.com/gmarik/Vundle.vim.git
+    dest: ~/.vim/bundle/Vundle.vim
+    update: yes
+    accept_hostkey: yes
+  when: install_vundle
+
+- name: Install ansible-vim
+  git:
+    repo: https://github.com/pearofducks/ansible-vim.git
+    dest: ~/.vim/bundle/ansible-vim
+    update: yes
+    accept_hostkey: yes
+  when: install_ansible_vim
+
+- name: Install python-mode
+  git:
+    repo: https://github.com/klen/python-mode.git
+    dest: ~/.vim/bundle/python-mode
+    update: yes
+    accept_hostkey: yes
+  when: install_python_mode
+
+- name: Install python-syntax
+  git:
+    repo: https://github.com/hdima/python-syntax.git
+    dest: ~/.vim/bundle/python-syntax
+    update: yes
+    accept_hostkey: yes
+  when: install_python_syntax

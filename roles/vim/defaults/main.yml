@@ -1,0 +1,4 @@
+install_vundle: false
+install_ansible_vim: false
+install_python_mode: false
+install_python_syntax: false

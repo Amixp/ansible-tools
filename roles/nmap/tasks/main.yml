@@ -1,0 +1,43 @@
+---
+- name: Debian | Install nmap dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - libssl-dev
+    - build-essential
+
+      #- name: See if nmap-7.70.tar.bz2 exists
+      #  stat:
+      #path: /tmp/nmap-7.70.tar.bz2
+      #register: n
+
+- name: Download nmap
+  get_url:
+    url: https://nmap.org/dist/nmap-7.70.tar.bz2
+    dest: /tmp/
+    mode: 0755
+  register: n
+
+- name: Extract nmap tar.gz2
+  unarchive:
+    remote_src: yes
+    src: /tmp/nmap-7.70.tar.bz2
+    dest: /tmp/
+  when: n.changed
+
+- name: Run ./configure for nmap
+  command: '"{{ item }}" chdir=/tmp/nmap-7.70/'
+  with_items:
+    - ./configure
+  when: n.changed
+
+- name: Run "make" for nmap
+  command: '"{{ item }}" chdir=/tmp/nmap-7.70/'
+  with_items:
+    - make
+  when: n.changed
+
+- name: Run "make install" for nmap
+  command: 'make install chdir=/tmp/nmap-7.70/'
+  when: n.changed
